@@ -37,10 +37,15 @@ public class UserController {
         String token = CookiesUtil.readLoginToken(request);
         if (token != null) {
             String userStr = RedisPoolUtil.get(token);
-            user = JsonUtil.string2Obj(userStr, User.class);
-            user.setPassword(StringUtils.EMPTY);
-            System.out.println("test");
-            return ServerResponse.createBySuccessData(user);
+            if (userStr != null) {
+                user = JsonUtil.string2Obj(userStr, User.class);
+                user.setPassword(StringUtils.EMPTY);
+                System.out.println("test");
+                return ServerResponse.createBySuccessData(user);
+            }else {
+                CookiesUtil.delLoginToken(request, resp);
+                return ServerResponse.createByErrorMsg("token没有存在于redis中需要重新登录");
+            }
         } else {
             ServerResponse<User> response = iUserService.login(user.getUsername(), user.getPassword());
             if (response.isSuccess()) {

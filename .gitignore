@@ -29,3 +29,8 @@ target/
 .DS_Store
 *.iml
 bin/
+src/main/java/com/lzn/mall/controller/common/
+src/main/resources.local/
+src/test/
+target/generated-sources/
+target/lznmall/WEB-INF/resource/

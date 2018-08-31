@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by lzn on 2018/8/30.
  */
 public class CookiesUtil {
-    private static final String COOKIES_DOMAIN = "127.0.0.1";
+    private static final String COOKIES_DOMAIN = "localhost";
     private static final String COOKIES_NAME = "mymall_login_token";
 
     public static void writeLoginToken(HttpServletResponse response, String token){
