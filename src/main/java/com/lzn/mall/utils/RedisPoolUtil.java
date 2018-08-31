@@ -1,5 +1,6 @@
 package com.lzn.mall.utils;
 
+import net.sf.jsqlparser.expression.LongValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
@@ -66,4 +67,16 @@ public class RedisPoolUtil {
     }
 
 
+    public static Long del(String key) {
+        Jedis jedis = JedisPoolUtil.getResource();
+        Long reuslt = Long.valueOf(0);
+        try {
+            reuslt = jedis.del(key);
+            JedisPoolUtil.returnResource(jedis);
+        } catch (Exception e) {
+            logger.error("删除失败", key, e);
+            JedisPoolUtil.returnBrokenResource(jedis);
+        }
+        return reuslt;
+    }
 }

@@ -43,6 +43,7 @@ public class UserController {
                 System.out.println("test");
                 return ServerResponse.createBySuccessData(user);
             }else {
+                RedisPoolUtil.del(token);
                 CookiesUtil.delLoginToken(request, resp);
                 return ServerResponse.createByErrorMsg("token没有存在于redis中需要重新登录");
             }
