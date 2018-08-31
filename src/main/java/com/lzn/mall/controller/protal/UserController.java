@@ -39,6 +39,7 @@ public class UserController {
             String userStr = RedisPoolUtil.get(token);
             user = JsonUtil.string2Obj(userStr, User.class);
             user.setPassword(StringUtils.EMPTY);
+            System.out.println("test");
             return ServerResponse.createBySuccessData(user);
         } else {
             ServerResponse<User> response = iUserService.login(user.getUsername(), user.getPassword());
