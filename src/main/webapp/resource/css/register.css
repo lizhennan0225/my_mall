@@ -1,0 +1,36 @@
+/*注册样式*/
+.register-main {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 350px;
+    height:400px;
+    margin: 0 auto;
+}
+
+.register-main header {
+    margin-top: 150px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 30px;
+    font-weight: 100;
+    text-align: center;
+
+}
+
+.register-main form .layui-input-block,
+.register-main form .layui-input-block input{
+    width: 100%;
+}
+
+.register-main header,
+.register-main form,
+.register-main form .layui-input-inline {
+    margin-bottom: 10px;
+}
+
+.register-main form .login-btn {
+    margin-bottom: 5px;
+}
