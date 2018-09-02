@@ -46,7 +46,8 @@
         </div>
         <hr/>
         <div class="layui-form-item">
-            <p><a href="<%=basePath%>user/register_index" class="fl">立即注册</a><a href="forget.jsp" class="fr">忘记密码</a></p>
+            <p><a href="<%=basePath%>user/register_index" class="fl">立即注册</a><a href="forget.jsp" class="fr">忘记密码</a>
+            </p>
             <%--<button type="reset" class="layui-btn layui-btn-primary">重置</button>--%>
         </div>
 
@@ -70,7 +71,8 @@
                 type: 'POST',
                 success: function (data) {
                     if (data.status == 0) {
-                        layer.msg('登录成功');
+                        <%--$.get("<%=basePath%>user/manage/admin");--%>
+                        location.href = "<%=basePath%>user/manage/admin";
                     } else {
                         layer.msg('登录名或密码错误');
                     }

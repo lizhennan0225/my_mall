@@ -34,35 +34,35 @@ public class UserController {
     public ServerResponse<User> login(@RequestBody User user, HttpSession session,
                                       HttpServletResponse resp, HttpServletRequest request) {
 
-        String token = CookiesUtil.readLoginToken(request);
-        if (token != null) {
-            String userStr = RedisPoolUtil.get(token);
-            if (userStr != null) {
-                user = JsonUtil.string2Obj(userStr, User.class);
-                user.setPassword(StringUtils.EMPTY);
-                System.out.println("test");
-                return ServerResponse.createBySuccessData(user);
-            }else {
-                RedisPoolUtil.del(token);
-                CookiesUtil.delLoginToken(request, resp);
-                return ServerResponse.createByErrorMsg("token没有存在于redis中需要重新登录");
-            }
-        } else {
-            ServerResponse<User> response = iUserService.login(user.getUsername(), user.getPassword());
-            if (response.isSuccess()) {
-                String jsonStr = JsonUtil.obj2PrettyString(response.getData());
-                String value = RedisPoolUtil.setex(session.getId(), jsonStr, Const.Session.SESSION_EXPIRE_TIME);
-                if (value != null) {
-                    CookiesUtil.writeLoginToken(resp, session.getId());
-                } else {
-                    return ServerResponse.createByErrorMsg("token持久化到redis出错");
-                }
-
-                return response;
+//        String token = CookiesUtil.readLoginToken(request);
+//        if (token != null) {
+//            String userStr = RedisPoolUtil.get(token);
+//            if (userStr != null) {
+//                user = JsonUtil.string2Obj(userStr, User.class);
+//                user.setPassword(StringUtils.EMPTY);
+//                System.out.println("test");
+//                return ServerResponse.createBySuccessData(user);
+//            }else {
+//                RedisPoolUtil.del(token);
+//                CookiesUtil.delLoginToken(request, resp);
+//                return ServerResponse.createByErrorMsg("token没有存在于redis中需要重新登录");
+//            }
+//        } else {
+        ServerResponse<User> response = iUserService.login(user.getUsername(), user.getPassword());
+        if (response.isSuccess()) {
+            String jsonStr = JsonUtil.obj2PrettyString(response.getData());
+            String value = RedisPoolUtil.setex(session.getId(), jsonStr, Const.Session.SESSION_EXPIRE_TIME);
+            if (value != null) {
+                CookiesUtil.writeLoginToken(resp, session.getId());
+            } else {
+                return ServerResponse.createByErrorMsg("token持久化到redis出错");
             }
 
-            return ServerResponse.createByErrorMsg("密码错误");
+            return response;
         }
+
+        return ServerResponse.createByErrorMsg("密码错误");
+//        }
     }
 
     @RequestMapping(value = "register_index", method = RequestMethod.GET)
